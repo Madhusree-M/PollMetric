@@ -1,0 +1,148 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+@theme {
+    --font-sans: 'Inter', sans-serif;
+    --font-brand: 'Outfit', sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-[#030712] text-slate-200 overflow-x-hidden w-full transition-all duration-500 ease-in-out;
+        font-family: var(--font-sans);
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .light-mode body {
+        @apply bg-[#f8fafc] text-slate-900;
+    }
+}
+
+
+@layer components {
+    .glass-card {
+        @apply bg-[#030712]/60 backdrop-blur-2xl border border-slate-800/50 rounded-3xl md:rounded-[2.5rem] transition-all duration-500 shadow-2xl;
+    }
+
+    .light-mode .glass-card {
+        @apply bg-white/80 border-slate-200 shadow-xl;
+    }
+
+    .btn-primary {
+        @apply flex items-center justify-center bg-cyan-500 hover:bg-cyan-400 text-[#030712] font-black transition-all duration-300 active:scale-[0.98] shadow-lg shadow-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .light-mode .btn-primary {
+        @apply bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-600/20;
+    }
+
+    .input-field {
+        @apply w-full px-4 py-4 md:px-6 md:py-5 bg-slate-900/50 border border-slate-800/50 rounded-xl md:rounded-2xl text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-950 transition-all duration-300 font-medium text-sm md:text-base;
+    }
+
+    .light-mode .input-field {
+        @apply bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-cyan-500;
+    }
+
+    .text-gradient {
+        @apply text-cyan-400;
+    }
+
+    .light-mode .text-gradient {
+        @apply text-cyan-600;
+    }
+
+    .nav-link {
+        @apply text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-white transition-all duration-300;
+    }
+
+    .light-mode .nav-link {
+        @apply text-slate-500 hover:text-slate-900;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #030712;
+}
+
+.light-mode ::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 10px;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+
+.light-mode ::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+/* ===== Theme Transition — Circular Reveal ===== */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 9999;
+    animation: theme-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes theme-reveal {
+    from {
+        clip-path: circle(0% at var(--theme-x, 50%) var(--theme-y, 50%));
+    }
+
+    to {
+        clip-path: circle(var(--theme-r, 150%) at var(--theme-x, 50%) var(--theme-y, 50%));
+    }
+}

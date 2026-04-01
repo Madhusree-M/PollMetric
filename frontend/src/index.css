@@ -91,6 +91,46 @@
     animation: fade-in 1s ease-out forwards;
 }
 
+@keyframes wave-sway {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-15px);
+    }
+}
+
+@keyframes wave-drift {
+
+    0%,
+    100% {
+        transform: translateX(0) scaleY(1);
+    }
+
+    25% {
+        transform: translateX(10px) scaleY(1.03);
+    }
+
+    75% {
+        transform: translateX(-10px) scaleY(0.97);
+    }
+}
+
+@keyframes wave-rise {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 6px;

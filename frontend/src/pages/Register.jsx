@@ -39,9 +39,74 @@ const Register = () => {
         }
     };
 
+    // Wave colors — 5 layers from back (darkest) to front (lightest)
+    const darkWaves = [
+        'rgba(8, 145, 178, 0.12)',   // cyan-600 very faint
+        'rgba(6, 182, 212, 0.18)',   // cyan-500
+        'rgba(34, 211, 238, 0.22)',  // cyan-400
+        'rgba(103, 232, 249, 0.16)', // cyan-300
+        'rgba(165, 243, 252, 0.10)', // cyan-200 subtle
+    ];
+    const lightWaves = [
+        'rgba(8, 145, 178, 0.25)',   // cyan-600
+        'rgba(6, 182, 212, 0.20)',   // cyan-500
+        'rgba(34, 211, 238, 0.15)',  // cyan-400
+        'rgba(103, 232, 249, 0.12)', // cyan-300
+        'rgba(165, 243, 252, 0.08)', // cyan-200
+    ];
+
+    const waves = theme === 'light' ? lightWaves : darkWaves;
+
+    // SVG wave path definitions — each layer has a unique curve shape
+    const wavePaths = [
+        // Layer 1 — tallest, furthest back
+        'M0,160 C320,220 640,100 960,180 C1280,260 1440,140 1440,140 L1440,320 L0,320 Z',
+        // Layer 2
+        'M0,200 C240,140 480,260 720,200 C960,140 1200,240 1440,180 L1440,320 L0,320 Z',
+        // Layer 3
+        'M0,220 C360,280 720,180 1080,240 C1260,270 1440,210 1440,210 L1440,320 L0,320 Z',
+        // Layer 4
+        'M0,250 C200,220 500,290 720,260 C940,230 1200,280 1440,240 L1440,320 L0,320 Z',
+        // Layer 5 — shortest, frontmost
+        'M0,275 C280,300 560,260 840,285 C1120,310 1300,270 1440,280 L1440,320 L0,320 Z',
+    ];
+
     return (
         <div className="fixed inset-0 flex flex-col items-center justify-center px-6 overflow-hidden transition-colors duration-500 pt-[80px]">
-            <div className="relative w-full max-w-lg flex flex-col items-center justify-center">
+
+            {/* ── Multi-Layer Wave Background ── */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                {wavePaths.map((d, i) => {
+                    // Each layer gets unique animation: slower at back, faster at front
+                    const animations = [
+                        'wave-drift 3s ease-in-out infinite',
+                        'wave-rise 3s ease-in-out infinite reverse',
+                        'wave-sway 3s ease-in-out infinite',
+                        'wave-drift 3s ease-in-out infinite reverse',
+                        'wave-rise 3s ease-in-out infinite',
+                    ];
+                    return (
+                        <svg
+                            key={i}
+                            className="absolute bottom-0 transition-colors duration-700"
+                            style={{
+                                width: '140%',
+                                left: '-20%',
+                                height: `${100 - i * 5}%`,
+                                zIndex: i,
+                                animation: animations[i],
+                            }}
+                            viewBox="0 0 1440 320"
+                            preserveAspectRatio="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path d={d} fill={waves[i]} />
+                        </svg>
+                    );
+                })}
+            </div>
+
+            <div className="relative w-full max-w-lg flex flex-col items-center justify-center z-10">
                 <div className={`absolute -top-20 -left-20 w-72 h-72 rounded-full blur-[100px] animate-pulse transition-all duration-700 ${theme === 'light' ? 'bg-cyan-500/10' : 'bg-cyan-500/20'}`}></div>
                 <div className={`absolute -bottom-20 -right-20 w-72 h-72 rounded-full blur-[100px] animate-pulse delay-700 transition-all duration-700 ${theme === 'light' ? 'bg-indigo-500/10' : 'bg-indigo-500/20'}`}></div>
 
